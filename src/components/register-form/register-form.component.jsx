@@ -1,6 +1,7 @@
 import './register-form.styles.css'
 import FormInput from '../form-input/form-input.component';
 import { useState } from 'react';
+import { createAuthUserWithEmailAndPassword, createUserDocumentFromAuth } from '../utils/firebase.utils';
 
 const defaultFormFields = {
     email: '',
@@ -18,10 +19,30 @@ const RegisterForm = () => {
         const {name , value} = event.target;
         setFormFields({...formFields , [name]:value})
     }
-
+    const resetFormFields = () => {
+        setFormFields(defaultFormFields);
+    }
     const handleSubmit = async (event) => {
         event.preventDefault();
-        // user registration logic goes here 
+        
+        if(password != confirmPassword){
+            alert('password do not match');
+            return ;
+        }
+
+        try{
+            const {user} = await createAuthUserWithEmailAndPassword(email , password);
+            await createUserDocumentFromAuth(user , { idproof })
+            resetFormFields()
+        } catch(error){
+            if(error.code === 'auth/email-already-in-use'){
+                alert('Cannot create user , email already in use')
+            }
+            else{
+                console.log('user creation encouter an error' , error)
+            }
+        }
+
     }
     return(
         <div className="register-container">
