@@ -11,6 +11,7 @@ const Navigation = () => {
         await signOutUser()
         setCurrentUser(null);
     }
+
     return (
         <Fragment>
         <nav className="navbar">

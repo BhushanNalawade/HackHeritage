@@ -1,7 +1,13 @@
-const Dashboard = () => {
+const Dashboard = (props) => {
+    console.log(props.unlocked)
     return(
         <div>
-            <h1>This is the Dashboard page</h1>
+            {props.unlocked && 
+                <h1>You have access</h1>
+            }
+            {!props.unlocked &&
+                <h1>You dont have access</h1>
+            }
         </div>
     )
 }

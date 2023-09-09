@@ -12,7 +12,8 @@ import {
     doc,
     getDoc,
     setDoc,
-    getFirestore
+    getFirestore,
+    collection
 } from 'firebase/firestore'
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -31,23 +32,22 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
+
 export const auth = getAuth();
-export const db = getFirestore();
+export const db = getFirestore(app);
+
 
 export const createUserDocumentFromAuth = async (userAuth , additionalInfo) => {
     if(!userAuth) return;
     const userDocRef = doc(db , 'users' , userAuth.uid)
     const userSnapshot = await getDoc(userDocRef);
-  
+    const unlocked = false;
     if(!userSnapshot.exists()){
-  
       const { idproof , email } = userAuth;
       const createdAt = new Date();
-      const unlocked = false;
       try{
         await setDoc(userDocRef, {
           email,
-          idproof,
           createdAt,
           unlocked,
           ...additionalInfo
@@ -61,7 +61,8 @@ export const createUserDocumentFromAuth = async (userAuth , additionalInfo) => {
   
     return userDocRef;
   }
-  
+
+
 export const createAuthUserWithEmailAndPassword = async (email , password) =>{
     if(!email || !password) return;
     return await createUserWithEmailAndPassword(auth , email , password)
@@ -74,3 +75,5 @@ export const signInAuthUserWithEmailAndPassword = async (email , password) =>{
 export const onAuthStateChangedListener = (callback) => onAuthStateChanged(auth , callback)
 
 export const signOutUser = async() => await signOut(auth)
+
+export default db;
