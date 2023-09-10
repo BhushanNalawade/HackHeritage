@@ -40,7 +40,7 @@ function App() {
     <Routes>
       <Route path = '/' element = {<Navigation />} >
         <Route index element = {<Dashboard unlocked={unlocked}/>} />  
-        <Route path='/enter-data' element={<Data />} /> 
+        <Route path='/enter-data' element={<Data unlocked={unlocked} />} /> 
         <Route path = 'auth' element = {<Authentication />} />
       </Route>
     </Routes>

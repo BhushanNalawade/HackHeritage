@@ -13,7 +13,8 @@ import {
     getDoc,
     setDoc,
     getFirestore,
-    collection
+    collection,
+    addDoc
 } from 'firebase/firestore'
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -75,5 +76,14 @@ export const signInAuthUserWithEmailAndPassword = async (email , password) =>{
 export const onAuthStateChangedListener = (callback) => onAuthStateChanged(auth , callback)
 
 export const signOutUser = async() => await signOut(auth)
+
+export const enterDataIntoDatabase = async(fields) => {
+    try{
+      await addDoc(collection(db , "data") , {...fields})
+    }
+    catch(err){
+      console.log('an Error occurred')
+    }
+}
 
 export default db;
