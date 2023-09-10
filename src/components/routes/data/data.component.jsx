@@ -51,7 +51,7 @@ const Data = (props) => {
                     </div>
 
                     <div className="input">
-                        <label>Enter Bith date</label>
+                        <label>Enter Birth date</label>
                         <input type="date" name="birthDate" required value={birthDate} onChange={handleChange}/>
                     </div>
 
